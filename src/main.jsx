@@ -1,15 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
+import { ColorModeProvider } from './theme/ColorModeContext.jsx'
 import App from './App.jsx'
-import theme from './theme.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <ColorModeProvider>
       <App />
-    </ThemeProvider>
+    </ColorModeProvider>
   </React.StrictMode>
 )

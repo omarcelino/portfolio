@@ -5,6 +5,8 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import { useTheme } from '@mui/material/styles'
 import SectionLabel from './SectionLabel'
+import Reveal from './common/Reveal'
+import RevealItem from './common/RevealItem'
 
 const groups = [
   { label: 'SIEM & EDR', items: ['Splunk', 'ELK Stack', 'Wazuh', 'CrowdStrike', 'Cortex XDR', 'TrendMicro', 'Cybereason'] },
@@ -26,51 +28,43 @@ export default function Skills() {
         <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
           Technical toolkit
         </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 2 }}>
-          {groups.map((g) => (
-            <Paper
-              key={g.label}
-              variant="outlined"
-              sx={{
-                bgcolor: 'background.paper',
-                borderColor: 'divider',
-                p: '1.25rem',
-                transition: 'border-color 0.2s',
-                '&:hover': { borderColor: theme.custom.tealBorder },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontFamily: theme.custom.mono,
-                  fontSize: 11,
-                  color: 'primary.main',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  mb: 1.5,
-                }}
-              >
-                {g.label}
-              </Typography>
-              <Stack direction="row" flexWrap="wrap" useFlexGap gap={0.75}>
-                {g.items.map((item) => (
-                  <Chip
-                    key={item}
-                    label={item}
-                    size="small"
+        <Reveal stagger>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 2 }}>
+            {groups.map((g) => (
+              <RevealItem key={g.label}>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    bgcolor: 'background.paper',
+                    borderColor: 'divider',
+                    p: '1.25rem',
+                    height: '100%',
+                    transition: 'border-color 0.2s ease',
+                    '&:hover': { borderColor: 'primary.main' },
+                  }}
+                >
+                  <Typography
                     sx={{
-                      fontSize: 12,
-                      color: 'text.secondary',
-                      bgcolor: theme.custom.bg3,
-                      borderRadius: '4px',
-                      height: 'auto',
-                      '& .MuiChip-label': { px: 1, py: '3px' },
+                      fontFamily: theme.custom.mono,
+                      fontSize: 11,
+                      color: 'primary.main',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      mb: 1.5,
                     }}
-                  />
-                ))}
-              </Stack>
-            </Paper>
-          ))}
-        </Box>
+                  >
+                    {g.label}
+                  </Typography>
+                  <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 0.75 }}>
+                    {g.items.map((item) => (
+                      <Chip key={item} label={item} size="small" />
+                    ))}
+                  </Stack>
+                </Paper>
+              </RevealItem>
+            ))}
+          </Box>
+        </Reveal>
       </Box>
     </Box>
   )

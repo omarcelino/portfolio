@@ -2,10 +2,16 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import Chip from '@mui/material/Chip'
-import Stack from '@mui/material/Stack'
-import Link from '@mui/material/Link'
 import { useTheme } from '@mui/material/styles'
+import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded'
+import LockRoundedIcon from '@mui/icons-material/LockRounded'
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
+import BugReportRoundedIcon from '@mui/icons-material/BugReportRounded'
+import PublicRoundedIcon from '@mui/icons-material/PublicRounded'
 import SectionLabel from './SectionLabel'
+import ProjectCard from './common/ProjectCard'
+import Reveal from './common/Reveal'
+import RevealItem from './common/RevealItem'
 
 const certs = [
   { name: 'CEH — Certified Ethical Hacker', issuer: 'EC-Council', status: 'in progress', highlight: true },
@@ -20,36 +26,41 @@ const certs = [
 
 const projects = [
   {
+    icon: TerminalRoundedIcon,
     title: 'HackTheBox Academy',
     tag: '45% pentest path',
     desc: 'Penetration tester learning path — Windows exploitation, privilege escalation, Active Directory attacks using Metasploit on ParrotOS.',
     link: 'https://tryhackme.com/p/brianmarcelino',
-    linkLabel: 'TryHackMe profile →',
+    linkLabel: 'TryHackMe profile',
   },
   {
+    icon: LockRoundedIcon,
     title: 'Secure File Encryption App',
     tag: 'Python · Flask',
     desc: 'Web application for encrypting and decrypting files, built with Python/Flask and an HTML5/CSS front-end. Implements symmetric encryption workflows.',
     link: null,
   },
   {
+    icon: StorageRoundedIcon,
     title: 'Hardened Linux from Scratch',
     tag: 'Gentoo · VMware',
     desc: 'Minimalistic, security-hardened Linux environment built from scratch using the Gentoo distribution — no package manager defaults, every service reviewed.',
     link: null,
   },
   {
+    icon: BugReportRoundedIcon,
     title: 'AIG Ransomware Response',
     tag: 'Python · Brute-force',
     desc: 'Wrote a Python script to brute-force decryption keys as an ethical alternative to ransom payment during the AIG Shields Up simulation on Forage.',
     link: null,
   },
   {
+    icon: PublicRoundedIcon,
     title: 'Root-Me CTF Challenges',
     tag: 'Web · Network',
     desc: 'Ongoing participation in web application and network security challenges on the Root-Me platform.',
     link: 'https://www.root-me.org/brianmarcelino',
-    linkLabel: 'root-me.org →',
+    linkLabel: 'root-me.org',
   },
 ]
 
@@ -63,55 +74,15 @@ export default function Projects() {
           <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
             Hands-on work
           </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2 }}>
-            {projects.map((p) => (
-              <Paper
-                key={p.title}
-                variant="outlined"
-                sx={{
-                  bgcolor: 'background.default',
-                  borderColor: 'divider',
-                  p: '1.5rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 1.5,
-                  transition: 'border-color 0.2s, transform 0.2s',
-                  '&:hover': { borderColor: theme.custom.tealBorder, transform: 'translateY(-2px)' },
-                }}
-              >
-                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
-                  <Typography sx={{ fontFamily: theme.custom.mono, fontSize: 15, fontWeight: 500 }}>{p.title}</Typography>
-                  <Chip
-                    label={p.tag}
-                    size="small"
-                    sx={{
-                      fontFamily: theme.custom.mono,
-                      fontSize: 10,
-                      color: 'primary.main',
-                      bgcolor: theme.custom.tealDim,
-                      border: `1px solid ${theme.custom.tealBorder}`,
-                      borderRadius: '4px',
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0,
-                      height: 'auto',
-                      '& .MuiChip-label': { px: 1, py: '2px' },
-                    }}
-                  />
-                </Stack>
-                <Typography sx={{ fontSize: 13, color: 'text.secondary', lineHeight: 1.7, flex: 1 }}>{p.desc}</Typography>
-                {p.link && (
-                  <Link
-                    href={p.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ fontFamily: theme.custom.mono, fontSize: 12, color: 'primary.main' }}
-                  >
-                    {p.linkLabel}
-                  </Link>
-                )}
-              </Paper>
-            ))}
-          </Box>
+          <Reveal stagger>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2 }}>
+              {projects.map((p) => (
+                <RevealItem key={p.title}>
+                  <ProjectCard {...p} />
+                </RevealItem>
+              ))}
+            </Box>
+          </Reveal>
         </Box>
       </Box>
 
@@ -121,46 +92,47 @@ export default function Projects() {
           <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
             Credentials
           </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 1.5 }}>
-            {certs.map((c) => (
-              <Paper
-                key={c.name}
-                variant="outlined"
-                sx={{
-                  bgcolor: 'background.paper',
-                  borderColor: c.highlight ? theme.custom.tealBorder : 'divider',
-                  p: '1rem 1.25rem',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  gap: 1.5,
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{ fontFamily: theme.custom.mono, fontSize: 13, fontWeight: 500, color: c.highlight ? 'primary.main' : 'text.primary' }}
+          <Reveal stagger>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 1.5 }}>
+              {certs.map((c) => (
+                <RevealItem key={c.name}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      bgcolor: 'background.paper',
+                      borderColor: c.highlight ? 'primary.main' : 'divider',
+                      p: '1rem 1.25rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: 1.5,
+                      height: '100%',
+                    }}
                   >
-                    {c.name}
-                  </Typography>
-                  <Typography sx={{ fontSize: 12, color: 'text.secondary', mt: 0.5 }}>{c.issuer}</Typography>
-                </Box>
-                <Chip
-                  label={c.status}
-                  size="small"
-                  sx={{
-                    fontFamily: theme.custom.mono,
-                    fontSize: 11,
-                    whiteSpace: 'nowrap',
-                    color: c.highlight ? '#000' : 'text.secondary',
-                    bgcolor: c.highlight ? 'primary.main' : theme.custom.bg3,
-                    borderRadius: '4px',
-                    height: 'auto',
-                    '& .MuiChip-label': { px: 1, py: '3px' },
-                  }}
-                />
-              </Paper>
-            ))}
-          </Box>
+                    <Box>
+                      <Typography
+                        sx={{ fontFamily: theme.custom.mono, fontSize: 13, fontWeight: 500, color: c.highlight ? 'primary.main' : 'text.primary' }}
+                      >
+                        {c.name}
+                      </Typography>
+                      <Typography sx={{ fontSize: 12, color: 'text.secondary', mt: 0.5 }}>{c.issuer}</Typography>
+                    </Box>
+                    <Chip
+                      label={c.status}
+                      size="small"
+                      sx={{
+                        fontFamily: theme.custom.mono,
+                        fontSize: 11,
+                        whiteSpace: 'nowrap',
+                        color: c.highlight ? theme.palette.primary.contrastText : 'text.secondary',
+                        bgcolor: c.highlight ? 'primary.main' : theme.custom.surfaceContainerHigh,
+                      }}
+                    />
+                  </Paper>
+                </RevealItem>
+              ))}
+            </Box>
+          </Reveal>
         </Box>
       </Box>
     </>
