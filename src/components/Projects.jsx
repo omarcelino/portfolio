@@ -1,4 +1,11 @@
-import { Label } from './About'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import Link from '@mui/material/Link'
+import { useTheme } from '@mui/material/styles'
+import SectionLabel from './SectionLabel'
 
 const certs = [
   { name: 'CEH — Certified Ethical Hacker', issuer: 'EC-Council', status: 'in progress', highlight: true },
@@ -47,65 +54,115 @@ const projects = [
 ]
 
 export default function Projects() {
+  const theme = useTheme()
   return (
     <>
-      <section id="projects" style={{ padding: '100px 2rem', background: 'var(--bg2)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <Label>projects & labs</Label>
-          <h2 style={{ fontFamily:'var(--mono)', fontSize: 28, fontWeight: 700, margin: '16px 0 48px' }}>
+      <Box component="section" id="projects" sx={{ py: { xs: 8, sm: 12.5 }, px: { xs: 2, sm: 4 }, bgcolor: 'background.paper' }}>
+        <Box sx={{ maxWidth: theme.custom.maxWidth, mx: 'auto' }}>
+          <SectionLabel>projects & labs</SectionLabel>
+          <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
             Hands-on work
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-            {projects.map(p => (
-              <div key={p.title} style={{
-                background: 'var(--bg)', border: '1px solid var(--border)',
-                borderRadius: 8, padding: '1.5rem',
-                display: 'flex', flexDirection: 'column', gap: 12,
-                transition: 'border-color 0.2s, transform 0.2s',
-              }}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor='var(--teal-border)';e.currentTarget.style.transform='translateY(-2px)'}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border)';e.currentTarget.style.transform='translateY(0)'}}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-                  <span style={{ fontFamily:'var(--mono)', fontSize: 15, fontWeight: 500 }}>{p.title}</span>
-                  <span style={{ fontFamily:'var(--mono)', fontSize: 10, color: 'var(--teal)', background: 'var(--teal-dim)', border: '1px solid var(--teal-border)', borderRadius: 4, padding: '2px 8px', whiteSpace: 'nowrap', flexShrink: 0 }}>{p.tag}</span>
-                </div>
-                <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, flex: 1 }}>{p.desc}</p>
-                {p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ fontFamily:'var(--mono)', fontSize: 12, color: 'var(--teal)' }}>{p.linkLabel}</a>}
-              </div>
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2 }}>
+            {projects.map((p) => (
+              <Paper
+                key={p.title}
+                variant="outlined"
+                sx={{
+                  bgcolor: 'background.default',
+                  borderColor: 'divider',
+                  p: '1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1.5,
+                  transition: 'border-color 0.2s, transform 0.2s',
+                  '&:hover': { borderColor: theme.custom.tealBorder, transform: 'translateY(-2px)' },
+                }}
+              >
+                <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+                  <Typography sx={{ fontFamily: theme.custom.mono, fontSize: 15, fontWeight: 500 }}>{p.title}</Typography>
+                  <Chip
+                    label={p.tag}
+                    size="small"
+                    sx={{
+                      fontFamily: theme.custom.mono,
+                      fontSize: 10,
+                      color: 'primary.main',
+                      bgcolor: theme.custom.tealDim,
+                      border: `1px solid ${theme.custom.tealBorder}`,
+                      borderRadius: '4px',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      height: 'auto',
+                      '& .MuiChip-label': { px: 1, py: '2px' },
+                    }}
+                  />
+                </Stack>
+                <Typography sx={{ fontSize: 13, color: 'text.secondary', lineHeight: 1.7, flex: 1 }}>{p.desc}</Typography>
+                {p.link && (
+                  <Link
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ fontFamily: theme.custom.mono, fontSize: 12, color: 'primary.main' }}
+                  >
+                    {p.linkLabel}
+                  </Link>
+                )}
+              </Paper>
             ))}
-          </div>
-        </div>
-      </section>
+          </Box>
+        </Box>
+      </Box>
 
-      <section style={{ padding: '100px 2rem' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <Label>certifications</Label>
-          <h2 style={{ fontFamily:'var(--mono)', fontSize: 28, fontWeight: 700, margin: '16px 0 48px' }}>
+      <Box component="section" sx={{ py: { xs: 8, sm: 12.5 }, px: { xs: 2, sm: 4 } }}>
+        <Box sx={{ maxWidth: theme.custom.maxWidth, mx: 'auto' }}>
+          <SectionLabel>certifications</SectionLabel>
+          <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
             Credentials
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
-            {certs.map(c => (
-              <div key={c.name} style={{
-                background: 'var(--bg2)',
-                border: c.highlight ? '1px solid var(--teal-border)' : '1px solid var(--border)',
-                borderRadius: 8, padding: '1rem 1.25rem',
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12,
-              }}>
-                <div>
-                  <div style={{ fontFamily:'var(--mono)', fontSize: 13, fontWeight: 500, color: c.highlight ? 'var(--teal)' : 'var(--text)' }}>{c.name}</div>
-                  <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>{c.issuer}</div>
-                </div>
-                <span style={{
-                  fontSize: 11, fontFamily:'var(--mono)', whiteSpace: 'nowrap',
-                  color: c.highlight ? '#000' : 'var(--muted)',
-                  background: c.highlight ? 'var(--teal)' : 'var(--bg3)',
-                  borderRadius: 4, padding: '3px 8px',
-                }}>{c.status}</span>
-              </div>
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 1.5 }}>
+            {certs.map((c) => (
+              <Paper
+                key={c.name}
+                variant="outlined"
+                sx={{
+                  bgcolor: 'background.paper',
+                  borderColor: c.highlight ? theme.custom.tealBorder : 'divider',
+                  p: '1rem 1.25rem',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 1.5,
+                }}
+              >
+                <Box>
+                  <Typography
+                    sx={{ fontFamily: theme.custom.mono, fontSize: 13, fontWeight: 500, color: c.highlight ? 'primary.main' : 'text.primary' }}
+                  >
+                    {c.name}
+                  </Typography>
+                  <Typography sx={{ fontSize: 12, color: 'text.secondary', mt: 0.5 }}>{c.issuer}</Typography>
+                </Box>
+                <Chip
+                  label={c.status}
+                  size="small"
+                  sx={{
+                    fontFamily: theme.custom.mono,
+                    fontSize: 11,
+                    whiteSpace: 'nowrap',
+                    color: c.highlight ? '#000' : 'text.secondary',
+                    bgcolor: c.highlight ? 'primary.main' : theme.custom.bg3,
+                    borderRadius: '4px',
+                    height: 'auto',
+                    '& .MuiChip-label': { px: 1, py: '3px' },
+                  }}
+                />
+              </Paper>
             ))}
-          </div>
-        </div>
-      </section>
+          </Box>
+        </Box>
+      </Box>
     </>
   )
 }

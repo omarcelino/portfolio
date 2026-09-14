@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Link from '@mui/material/Link'
+import { useTheme } from '@mui/material/styles'
 
-const links = ['about','experience','skills','projects','contact']
+const links = ['about', 'experience', 'skills', 'projects', 'contact']
 
 export default function Nav() {
+  const theme = useTheme()
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40)
@@ -12,46 +20,68 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', h)
   }, [])
 
-  const s = {
-    nav: {
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? 'rgba(13,17,23,0.92)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-      transition: 'all 0.3s ease',
-      padding: '0 2rem',
-    },
-    inner: { maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 },
-    logo: { fontFamily: 'var(--mono)', fontWeight: 700, fontSize: 15, color: 'var(--teal)', letterSpacing: '-0.02em' },
-    links: { display: 'flex', gap: 32, listStyle: 'none' },
-    link: { fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--muted)', cursor: 'pointer', transition: 'color 0.2s' },
-    hamburger: { display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--teal)', fontSize: 22 },
-  }
-
   return (
-    <nav style={s.nav}>
-      <div style={s.inner}>
-        <span style={s.logo}>brian@sec:~$</span>
-        <ul style={s.links} className="nav-links">
-          {links.map(l => (
-            <li key={l}>
-              <a href={`#${l}`} style={s.link}
-                onMouseEnter={e => e.target.style.color = 'var(--teal)'}
-                onMouseLeave={e => e.target.style.color = 'var(--muted)'}>
-                {l}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a href="mailto:hbrian83@gmail.com" style={{
-          fontFamily:'var(--mono)',fontSize:12,border:'1px solid var(--teal)',
-          color:'var(--teal)',padding:'6px 16px',borderRadius:4,transition:'all 0.2s'
+    <AppBar
+      position="fixed"
+      elevation={0}
+      sx={{
+        background: scrolled ? 'rgba(13,17,23,0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: `1px solid ${scrolled ? theme.custom.border : 'transparent'}`,
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <Toolbar
+        sx={{
+          maxWidth: theme.custom.maxWidth,
+          width: '100%',
+          mx: 'auto',
+          px: { xs: 2, sm: 3 },
+          height: 64,
+          minHeight: '64px !important',
         }}
-          onMouseEnter={e=>{e.target.style.background='var(--teal)';e.target.style.color='#000'}}
-          onMouseLeave={e=>{e.target.style.background='transparent';e.target.style.color='var(--teal)'}}>
+      >
+        <Typography
+          sx={{ fontFamily: theme.custom.mono, fontWeight: 700, fontSize: 15, color: 'primary.main', letterSpacing: '-0.02em', flexGrow: 1 }}
+        >
+          brian@sec:~$
+        </Typography>
+
+        <Stack direction="row" spacing={4} sx={{ display: { xs: 'none', sm: 'flex' }, mr: 4 }}>
+          {links.map((l) => (
+            <Link
+              key={l}
+              href={`#${l}`}
+              underline="none"
+              sx={{
+                fontFamily: theme.custom.mono,
+                fontSize: 13,
+                color: 'text.secondary',
+                transition: 'color 0.2s',
+                '&:hover': { color: 'primary.main' },
+              }}
+            >
+              {l}
+            </Link>
+          ))}
+        </Stack>
+
+        <Button
+          href="mailto:hbrian83@gmail.com"
+          variant="outlined"
+          size="small"
+          sx={{
+            fontFamily: theme.custom.mono,
+            fontSize: 12,
+            color: 'primary.main',
+            borderColor: 'primary.main',
+            px: 2,
+            '&:hover': { bgcolor: 'primary.main', color: '#000', borderColor: 'primary.main' },
+          }}
+        >
           hire me
-        </a>
-      </div>
-    </nav>
+        </Button>
+      </Toolbar>
+    </AppBar>
   )
 }

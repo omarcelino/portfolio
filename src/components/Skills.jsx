@@ -1,49 +1,77 @@
-import { Label } from './About'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import { useTheme } from '@mui/material/styles'
+import SectionLabel from './SectionLabel'
 
 const groups = [
-  { label: 'SIEM & EDR', items: ['Splunk','ELK Stack','Wazuh','CrowdStrike','Cortex XDR','TrendMicro','Cybereason'] },
-  { label: 'Penetration Testing', items: ['Metasploit','Burp Suite','Nmap','Kali Linux','ParrotOS','Nikto','Gobuster'] },
-  { label: 'Vulnerability Assessment', items: ['Nessus','OpenVAS','CVE / CVSS','Wireshark','OWASP Top 10','Threat Intel'] },
-  { label: 'Network & Logs', items: ['TCP/IP · DNS · ARP','Firewall Logs','NIDS / HIDS','Syslogs','Cisco Meraki','Windows Event Logs'] },
-  { label: 'Scripting', items: ['Python','Bash','PowerShell','SQL','Flask','Automation scripts'] },
-  { label: 'Frameworks', items: ['ISO 27001','NIST','PCI-DSS','GDPR','Kenya DPA 2019'] },
-  { label: 'Cloud & IAM', items: ['AWS','Azure','Active Directory','GPO','Access Control'] },
-  { label: 'Incident Response', items: ['Full IR lifecycle','Alert triage','IOC analysis','SLA management','Jira · Freshdesk'] },
+  { label: 'SIEM & EDR', items: ['Splunk', 'ELK Stack', 'Wazuh', 'CrowdStrike', 'Cortex XDR', 'TrendMicro', 'Cybereason'] },
+  { label: 'Penetration Testing', items: ['Metasploit', 'Burp Suite', 'Nmap', 'Kali Linux', 'ParrotOS', 'Nikto', 'Gobuster'] },
+  { label: 'Vulnerability Assessment', items: ['Nessus', 'OpenVAS', 'CVE / CVSS', 'Wireshark', 'OWASP Top 10', 'Threat Intel'] },
+  { label: 'Network & Logs', items: ['TCP/IP · DNS · ARP', 'Firewall Logs', 'NIDS / HIDS', 'Syslogs', 'Cisco Meraki', 'Windows Event Logs'] },
+  { label: 'Scripting', items: ['Python', 'Bash', 'PowerShell', 'SQL', 'Flask', 'Automation scripts'] },
+  { label: 'Frameworks', items: ['ISO 27001', 'NIST', 'PCI-DSS', 'GDPR', 'Kenya DPA 2019'] },
+  { label: 'Cloud & IAM', items: ['AWS', 'Azure', 'Active Directory', 'GPO', 'Access Control'] },
+  { label: 'Incident Response', items: ['Full IR lifecycle', 'Alert triage', 'IOC analysis', 'SLA management', 'Jira · Freshdesk'] },
 ]
 
 export default function Skills() {
+  const theme = useTheme()
   return (
-    <section id="skills" style={{ padding: '100px 2rem' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <Label>skills</Label>
-        <h2 style={{ fontFamily:'var(--mono)', fontSize: 28, fontWeight: 700, margin: '16px 0 48px' }}>
+    <Box component="section" id="skills" sx={{ py: { xs: 8, sm: 12.5 }, px: { xs: 2, sm: 4 } }}>
+      <Box sx={{ maxWidth: theme.custom.maxWidth, mx: 'auto' }}>
+        <SectionLabel>skills</SectionLabel>
+        <Typography component="h2" sx={{ fontFamily: theme.custom.mono, fontSize: 28, fontWeight: 700, mt: 2, mb: 6 }}>
           Technical toolkit
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
-          {groups.map(g => (
-            <div key={g.label} style={{
-              background: 'var(--bg2)', border: '1px solid var(--border)',
-              borderRadius: 8, padding: '1.25rem',
-              transition: 'border-color 0.2s',
-            }}
-              onMouseEnter={e=>e.currentTarget.style.borderColor='var(--teal-border)'}
-              onMouseLeave={e=>e.currentTarget.style.borderColor='var(--border)'}>
-              <div style={{ fontFamily:'var(--mono)', fontSize: 11, color: 'var(--teal)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+        </Typography>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 2 }}>
+          {groups.map((g) => (
+            <Paper
+              key={g.label}
+              variant="outlined"
+              sx={{
+                bgcolor: 'background.paper',
+                borderColor: 'divider',
+                p: '1.25rem',
+                transition: 'border-color 0.2s',
+                '&:hover': { borderColor: theme.custom.tealBorder },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: theme.custom.mono,
+                  fontSize: 11,
+                  color: 'primary.main',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  mb: 1.5,
+                }}
+              >
                 {g.label}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {g.items.map(item => (
-                  <span key={item} style={{
-                    fontSize: 12, color: 'var(--muted)',
-                    background: 'var(--bg3)', borderRadius: 4,
-                    padding: '3px 8px', lineHeight: 1.6,
-                  }}>{item}</span>
+              </Typography>
+              <Stack direction="row" flexWrap="wrap" useFlexGap gap={0.75}>
+                {g.items.map((item) => (
+                  <Chip
+                    key={item}
+                    label={item}
+                    size="small"
+                    sx={{
+                      fontSize: 12,
+                      color: 'text.secondary',
+                      bgcolor: theme.custom.bg3,
+                      borderRadius: '4px',
+                      height: 'auto',
+                      '& .MuiChip-label': { px: 1, py: '3px' },
+                    }}
+                  />
                 ))}
-              </div>
-            </div>
+              </Stack>
+            </Paper>
           ))}
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Box>
+    </Box>
   )
 }
